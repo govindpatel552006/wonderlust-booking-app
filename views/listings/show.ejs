@@ -1,0 +1,130 @@
+<% layout("/layouts/boilerplate") %>
+
+<title><%= listing.title %></title>
+
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto py-8 px-4 md:px-8">
+
+    <!-- Title + Location -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-green-400 mb-2">
+        <%= listing.title %>
+      </h1>
+      <p class="text-gray-400 text-lg">
+        <%= listing.location %>, <%= listing.country %>
+      </p>
+    </div>
+
+    <!-- Listing Image -->
+    <div class="flex justify-center mb-10">
+      <img
+        src="<%= listing.image && listing.image.url ? listing.image.url : listing.image %>"
+        alt="<%= listing.title %>"
+        class="rounded-2xl w-full md:w-2/3 lg:w-1/2 h-72 object-cover shadow-lg shadow-green-500/20"
+      >
+    </div>
+
+    <!-- Listing Info -->
+    <div class="max-w-2xl mx-auto bg-gray-800 p-5 rounded-xl shadow-md shadow-green-500/10 space-y-6">
+
+      <!-- About -->
+      <div>
+        <h2 class="text-xl font-semibold mb-2 text-green-400">About this place</h2>
+        <p class="text-gray-300 leading-relaxed text-sm">
+          <%= listing.description %>
+        </p>
+      </div>
+
+      <!-- Host Info -->
+      <div>
+        <h3 class="text-lg font-semibold mb-1">
+          Hosted by <span class="text-green-400"><%= listing.owner ? listing.owner.username : "Unknown Host" %></span>
+        </h3>
+        <p class="text-gray-400 text-sm">Superhost · 5 years hosting · Verified</p>
+      </div>
+
+      <!-- Owner Controls -->
+      <% if (curUser && listing.owner && listing.owner._id.equals(curUser._id)) { %>
+        <div class="grid grid-cols-2 gap-3">
+          <a href="/listings/<%= listing._id %>/edit"
+            class="bg-green-500 hover:bg-green-600 text-white py-2 rounded-md font-semibold text-center text-sm transition shadow">
+            ✏️ Edit
+          </a>
+
+          <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+            <button type="submit"
+              class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold text-sm transition shadow">
+              🗑️ Delete
+            </button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Review Section -->
+    <% if (curUser) { %>
+      <div class="max-w-md mx-auto bg-gray-800 text-white p-5 rounded-xl shadow-md shadow-green-500/10 mt-12">
+        <h2 class="text-xl font-semibold mb-4 text-center text-green-400">Leave a Review</h2>
+
+        <form action="/listings/<%= listing._id %>/reviews" method="POST" class="space-y-4">
+          <div>
+            <label for="comment" class="block mb-1 text-sm text-gray-300">Write a review</label>
+            <input type="text" name="comment" id="comment" placeholder="Share your thoughts..."
+              class="w-full p-2.5 rounded-lg border border-gray-700 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+              required>
+          </div>
+
+          <div>
+            <label for="rating" class="block mb-1 text-sm text-gray-300">Rating (1–5)</label>
+            <input type="number" name="rating" id="rating" min="1" max="5"
+              class="w-20 p-1.5 rounded-lg border border-gray-700 bg-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">
+          </div>
+
+          <button type="submit"
+            class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-md text-sm transition shadow">
+            Post Review
+          </button>
+        </form>
+      </div>
+    <% } else { %>
+      <p class="text-center text-gray-300 mt-10">
+        Please <a href="/login" class="text-green-400 underline">login</a> to add a review.
+      </p>
+    <% } %>
+
+    <!-- All Reviews -->
+    <div class="mt-12">
+      <h2 class="text-xl font-bold text-center text-green-400 mb-4">All Reviews</h2>
+
+      <% if (listing.reviews.length === 0) { %>
+        <p class="text-gray-400 text-center">No reviews yet. Be the first to write one!</p>
+      <% } else { %>
+        <ul class="space-y-3 max-w-md mx-auto">
+          <% listing.reviews.forEach(review => { %>
+            <li class="bg-gray-800 p-4 rounded-lg shadow shadow-green-500/10">
+              <div class="flex justify-between items-center mb-1">
+                <h3 class="font-semibold text-green-400 text-sm">@<%= review.author.username %></h3>
+                <p class="text-yellow-400 text-xs">
+                  <% for (let i = 0; i < review.rating; i++) { %>⭐<% } %>
+                </p>
+              </div>
+              <p class="text-gray-200 text-sm"><%= review.comment %></p>
+
+              <% if (curUser && review.author && review.author._id.equals(curUser._id)) { %>
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="mt-2 text-right">
+                  <button class="bg-red-600 px-2 py-1 rounded text-white text-xs hover:bg-red-700 transition">
+                    Delete
+                  </button>
+                </form>
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+
+  </div>
+</body>
+
+
+

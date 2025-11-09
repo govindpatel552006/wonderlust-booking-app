@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate")%>
+<body class="bg-gray-900 text-white">
+ <title>Edit Listing - <%= listing.title %></title>
+  <div class="container mx-auto py-10">
+    <h1 class="text-2xl font-bold text-center mb-8">
+      Editing: <span class="text-green-400"><%= listing.title %></span>
+    </h1>
+
+    <form enctype="multipart/form-data" id="editForm" action="/listings/<%= listing._id %>?_method=PUT" method="POST"
+          class="max-w-xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg space-y-6">
+
+      <!-- Title -->
+      <div>
+        <label class="block mb-2 font-semibold">Title</label>
+        <input type="text" name="title" value="<%= listing.title %>" required
+               class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500">
+        <p class="text-red-500 text-sm mt-1 hidden" id="titleError">Title is required</p>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block mb-2 font-semibold">Description</label>
+        <textarea name="description" rows="3" required
+                  class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500"><%= listing.description %></textarea>
+        <p class="text-red-500 text-sm mt-1 hidden" id="descError">Description is required</p>
+      </div>
+
+      <!-- Price -->
+      <div>
+        <label class="block mb-2 font-semibold">Price (₹)</label>
+        <input type="number" name="price" value="<%= listing.price %>" required min="0"
+               class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500">
+        <p class="text-red-500 text-sm mt-1 hidden" id="priceError">Enter a valid price</p>
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label class="block mb-2 font-semibold">Location</label>
+        <input type="text" name="location" value="<%= listing.location %>" required
+               class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500">
+        <p class="text-red-500 text-sm mt-1 hidden" id="locationError">Location is required</p>
+      </div>
+
+      <!-- Country -->
+      <div>
+        <label class="block mb-2 font-semibold">Country</label>
+        <input type="text" name="country" value="<%= listing.country %>" required
+               class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500">
+        <p class="text-red-500 text-sm mt-1 hidden" id="countryError">Country is required</p>
+      </div>
+
+      <!-- Image  -->
+      <div>
+        <label  class="block mb-2 font-semibold">upload new image </label>
+        <input type="file" name="image" 
+               class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-green-500">
+        <p class="text-red-500 text-sm mt-1 hidden" id="imageError">upload image </p>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+              class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition">
+        Update Listing
+      </button>
+    </form>
+  </div>
+
+  <script src="/js/script"></script>
+</body>
+
+
