@@ -3,26 +3,39 @@
     <!-- Brand -->
     <a href="/" class="text-xl font-bold">Wonderlust</a>
 
+    <!-- Centered Search Bar -->
+    <div class="flex-1 flex justify-center">
+      <form class="hidden md:flex items-center space-x-2">
+        <input
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          class="w-32 sm:w-60 px-3 py-1 text-sm rounded-2xl border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          class="px-3 py-1 text-sm border border-blue-500 text-blue-500 rounded-2xl hover:bg-blue-500 hover:text-white transition"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Right side links + Mobile Toggler -->
     <div class="flex items-center space-x-4">
-      <!-- Desktop Search Form -->
-      <div class="hidden md:flex items-center space-x-2">
-        <form class="flex items-center space-x-2">
-          <input
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            class="w-32 sm:w-40 px-2 py-1 text-sm rounded-2xl border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            class="px-3 py-1 text-sm border border-blue-500 text-blue-500 rounded-2xl hover:bg-blue-500 hover:text-white transition"
-          >
-            Search
-          </button>
-        </form>
+      <!-- Desktop Menu (Right aligned) -->
+      <div class="hidden lg:flex items-center space-x-6">
+        <a href="/listings/new" class="hover:text-gray-400">Create Listing</a>
+        <% if(!curUser){ %>
+          <a href="/login" class="hover:text-gray-400">Login</a>
+          <a href="/signup" class="hover:text-gray-400">Signup</a>
+        <% } %>
+        <% if(curUser){ %>
+          <a href="/logout" class="hover:text-gray-400">Logout</a>
+        <% } %>
       </div>
 
-      <!-- Mobile Toggler (Right side) -->
+      <!-- Mobile Toggler -->
       <button id="menu-btn" class="block lg:hidden focus:outline-none z-50">
         <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -31,34 +44,20 @@
     </div>
   </div>
 
-  <!-- Desktop Menu -->
-  <div class="hidden lg:flex lg:items-center lg:justify-center lg:space-x-6 pb-3">
-    <a href="/listings" class="hover:text-gray-400">All Listings</a>
-    <a href="/listings/new" class="hover:text-gray-400">Create Listing</a>
-    <% if(!curUser){%>
-      <a href="/login" class="hover:text-gray-400">Login</a>
-      <a href="/signup" class="hover:text-gray-400">Signup</a>
-    <%}%>
-    <% if(curUser){%>
-      <a href="/logout" class="hover:text-gray-400">Logout</a>
-    <%}%>
-  </div>
-
   <!-- Mobile Fullscreen Menu -->
   <div
     id="menu"
     class="hidden absolute top-0 left-0 w-full h-screen bg-gray-900 bg-opacity-95 flex flex-col items-center justify-center space-y-6 text-2xl"
   >
     <a href="/" class="hover:text-green-400">Home</a>
-    <a href="/listings" class="hover:text-green-400">All Listings</a>
     <a href="/listings/new" class="hover:text-green-400">Create Listing</a>
-    <% if(!curUser){%>
+    <% if(!curUser){ %>
       <a href="/login" class="hover:text-green-400">Login</a>
       <a href="/signup" class="hover:text-green-400">Signup</a>
-    <%}%>
-    <% if(curUser){%>
+    <% } %>
+    <% if(curUser){ %>
       <a href="/logout" class="hover:text-green-400">Logout</a>
-    <%}%>
+    <% } %>
   </div>
 </nav>
 
@@ -69,8 +68,7 @@
 
   menuBtn.addEventListener('click', () => {
     menu.classList.toggle('hidden');
-
-    // toggle hamburger <-> X
+    // Toggle hamburger ↔ X
     if (!menu.classList.contains('hidden')) {
       menuIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>`;
     } else {

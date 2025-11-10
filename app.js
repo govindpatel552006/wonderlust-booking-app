@@ -15,6 +15,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 
+
+
+
 // App Config
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -25,6 +28,11 @@ const listingRoutes = require("./routes/listings");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/user");
 
+
+
+
+// connecting with localhost 
+// const DATABASE_URL="mongodb://localhost:27017/"
 
 // Database Connection
 const DATABASE_URL = process.env.ATLASDB_URL
